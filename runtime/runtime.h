@@ -964,6 +964,16 @@ class Runtime {
   size_t GetMadviseWillNeedTotalDexSize() const {
     return madvise_willneed_total_dex_size_;
   }
+  
+  // Should Auto fast Detection be done.
+  bool IsAutoFastDetect() const {
+    return auto_fast_detect_;
+  }
+
+  // Set Auto Fast Detection.
+  void SetAutoFastDetect(bool value) {
+    auto_fast_detect_ = value;
+  }  
 
   size_t GetMadviseWillNeedSizeOdex() const {
     return madvise_willneed_odex_filesize_;
@@ -1525,6 +1535,9 @@ class Runtime {
       static_cast<uint32_t>(DeoptimizationKind::kLast) + 1];
 
   MemMap protected_fault_page_;
+  
+  // Auto Fast JNI detection gate.
+  bool auto_fast_detect_;
 
   uint32_t verifier_logging_threshold_ms_;
 
