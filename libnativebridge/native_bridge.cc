@@ -694,14 +694,18 @@ const char* NativeBridgeGetError() {
 }
 
 bool NativeBridgeIsPathSupported(const char* path) {
-  if (NativeBridgeInitialized()) {
-    if (isCompatibleWith(NAMESPACE_VERSION)) {
-      return callbacks->isPathSupported(path);
-    } else {
-      ALOGE("not compatible with version %d, cannot check via library path", NAMESPACE_VERSION);
+  if (isRanOutsideOfZygote){
+    return true;
+  } else {
+    if (NativeBridgeInitialized()) {
+      if (isCompatibleWith(NAMESPACE_VERSION)) {
+        return callbacks->isPathSupported(path);
+      } else {
+        ALOGE("not compatible with version %d, cannot check via library path", NAMESPACE_VERSION);
+      }
     }
+    return false;
   }
-  return false;
 }
 
 native_bridge_namespace_t* NativeBridgeCreateNamespace(const char* name,
